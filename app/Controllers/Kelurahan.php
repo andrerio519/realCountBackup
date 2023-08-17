@@ -66,48 +66,64 @@ class Kelurahan extends BaseController
 
     public function saksiCreate($id)
     {
-        $query_kelurahan = $this->kelurahan->getKelurahan($id);
-        $id_kecamatan    = $query_kelurahan['id_kecamatan'];
-        $nama            = $this->request->getVar('nama');
-        $sandi           = password_hash('jonpantau', PASSWORD_BCRYPT);
-        $nope            = $this->request->getVar('nope');
-        $tps             = $this->request->getVar('tps');
-        $rt              = $this->request->getVar('rt');
-        $cek_nope = $this->orang->where("nope", $nope)->countAllResults();
-        $cek_tps = $this->orang->where("id_kelurahan", $id)->where("tps", $tps)->countAllResults();
-        $cek_rt = $this->orang->where("id_kelurahan", $id)->where("rt", $rt)->countAllResults();
-        if ($cek_nope > 0) {
-            session()->setFlashdata('gagal', 'Nomor Telepon Sudah digunakan');
-            return redirect()->to(base_url("kelurahan/detail/$id"));
-        } elseif ($cek_tps > 0) {
-            session()->setFlashdata('gagal', 'Nomor TPS Sudah terdaftar');
-            return redirect()->to(base_url("kelurahan/detail/$id"));
-        } elseif ($cek_rt > 0) {
-            session()->setFlashdata('gagal', 'RT Sudah terdaftar');
-            return redirect()->to(base_url("kelurahan/detail/$id"));
-        } else {
-            $this->orang->save([
-                "nama"          => esc($nama),
-                "sandi"         => $sandi,
-                "nope"          => esc($nope),
-                "id_kecamatan"  => $id_kecamatan,
-                "id_kelurahan"  => $id,
-                "tps"           => esc($tps),
-                "rt"            => esc($rt),
-                "level"         => 'saksi',
-                "add_by"        => session()->get('id_orang'),
-                "status"        => 'aktif',
-            ]);
+        // Memulai transaksi
+        $db = db_connect();
+        $db->transStart();
+        try {
 
-            $this->tps->save([
-                "id_saksi" => $this->orang->getInsertID(),
-            ]);
-            $this->suarapartaikota->save([
-                "id_saksi" => $this->orang->getInsertID(),
-            ]);
+            $query_kelurahan = $this->kelurahan->getKelurahan($id);
+            $id_kecamatan    = $query_kelurahan['id_kecamatan'];
+            $nama            = $this->request->getVar('nama');
+            $sandi           = password_hash('jonpantau', PASSWORD_BCRYPT);
+            $nope            = $this->request->getVar('nope');
+            $tps             = $this->request->getVar('tps');
+            $rt              = $this->request->getVar('rt');
+            $cek_nope = $this->orang->where("nope", $nope)->countAllResults();
+            $cek_tps = $this->orang->where("id_kelurahan", $id)->where("tps", $tps)->countAllResults();
+            $cek_rt = $this->orang->where("id_kelurahan", $id)->where("rt", $rt)->countAllResults();
+            if ($cek_nope > 0) {
+                session()->setFlashdata('gagal', 'Nomor Telepon Sudah digunakan');
+                return redirect()->to(base_url("kelurahan/detail/$id"));
+            } elseif ($cek_tps > 0) {
+                session()->setFlashdata('gagal', 'Nomor TPS Sudah terdaftar');
+                return redirect()->to(base_url("kelurahan/detail/$id"));
+            } elseif ($cek_rt > 0) {
+                session()->setFlashdata('gagal', 'RT Sudah terdaftar');
+                return redirect()->to(base_url("kelurahan/detail/$id"));
+            } else {
+                $this->orang->save([
+                    "nama"          => esc($nama),
+                    "sandi"         => $sandi,
+                    "nope"          => esc($nope),
+                    "id_kecamatan"  => $id_kecamatan,
+                    "id_kelurahan"  => $id,
+                    "tps"           => esc($tps),
+                    "rt"            => esc($rt),
+                    "level"         => 'saksi',
+                    "add_by"        => session()->get('id_orang'),
+                    "status"        => 'aktif',
+                ]);
 
-            session()->setFlashdata('pesan', 'saksi telah ditambah');
+                $this->tps->save([
+                    "id_saksi" => $this->orang->getInsertID(),
+                ]);
+                $this->suarapartaikota->save([
+                    "id_saksi" => $this->orang->getInsertID(),
+                ]);
+                $db->transCommit();
+                session()->setFlashdata('pesan', 'saksi telah ditambah');
+                return redirect()->to(base_url("kelurahan/detail/$id"));
+            }
+        } catch (\Exception $e) {
+            $db->transRollback();
+
+            session()->setFlashdata('error', $e->getMessage());
+
             return redirect()->to(base_url("kelurahan/detail/$id"));
+        } finally {
+            // Memastikan transaksi selesai dan mengakhiri koneksi database
+            $db->transComplete();
+            $db->close();
         }
     }
     public function saksiEdit()

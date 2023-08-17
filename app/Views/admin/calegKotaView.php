@@ -10,7 +10,7 @@ $no = 1;
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3 class="m-0">Caleg DPRD TK II Kabupaten / Kota </h3>
+                <h3 class="m-0">PESERTA </h3>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -66,7 +66,7 @@ $no = 1;
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        DPRD TK II Kab/Kota
+                        PESERTA
                     </div>
                     <div class="card-body">
                         <table class=" table table-bordered">

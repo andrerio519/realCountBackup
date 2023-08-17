@@ -23,14 +23,21 @@
                 <div class="card">
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table table id="download" class="table table-bordered table-striped">
+                        <table table id="download" class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Saksi</th>
+                                    <th>Kecamatan</th>
+                                    <th>Kelurahan</th>
+                                    <th>TPS</th>
                                     <?php foreach ($pesertakota as $peserta) : ?>
                                         <th><?= $peserta["no_urutkota"] ?>.<?= $peserta["nama_calegkota"] ?></th>
                                     <?php endforeach; ?>
+                                    <th>Coblos Gambar Partai</th>
+                                    <th>Last Updated By</th>
+                                    <th>Updated At</th>
+                                    <th>Nama Saksi</th>
+                                    <th>Kontak</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,10 +47,15 @@
                                 ?>
                                     <tr>
                                         <td><?= $no++ ?></td>
-                                        <td><?= $data["nama"] ?></td>
+                                        <td><?= $data["nama_kecamatan"] ?></td>
+                                        <td><?= $data["nama_kelurahan"] ?></td>
+                                        <td><?= $data["tps"] ?></td>
                                         <?php
                                         $id_saksi = $data["id_orang"];
+                                        $updated_by = $data["updated_by"];
                                         $result = $suaraKota->getResultKotaByLevel("id_saksi", $id_saksi);
+                                        $partai = $suaraPartai->getTpsPartaiKota($id_saksi);
+                                        $updated = $updatedBy->getOrg($updated_by);
                                         if ($result) { ?>
                                             <?php foreach ($result as $hasil) { ?>
                                                 <td><?= $hasil["jumlah_suara"] ?></td>
@@ -53,6 +65,19 @@
                                                 <td>-</td>
                                             <?php } ?>
                                         <?php } ?>
+                                        <td><?= ($data["updated_at"] == null) ? "-" : $partai['suara_partaikota'] ?></td>
+                                        <?php if ($data["updated_at"] != null) { ?>
+                                            <td><?= $updated["nama"] ?></td>
+                                        <?php } else { ?>
+                                            <td>Belum Laporan</td>
+                                        <?php } ?>
+                                        <?php if ($data["updated_at"] != null) { ?>
+                                            <td><?= $data["updated_at"] ?></td>
+                                        <?php } else { ?>
+                                            <td>Belum Laporan</td>
+                                        <?php } ?>
+                                        <td><?= $data["nama"] ?></td>
+                                        <td><?= $data["nope"] ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

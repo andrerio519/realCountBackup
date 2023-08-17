@@ -46,13 +46,13 @@
                                 <label for="password">Password</label>
                                 <input type="password" name="sandi" id="sandi" placeholder="Password" class="form-control" required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group text-center">
                                 <button type="submit" class="btn btn-primary">Login</button>
                             </div>
                         </form>
                     </div>
                     <div class="card-footer">
-                        <p class="text-muted">RealCountTPS Demo &copy; RioTech</p>
+                        <p class="text-muted">RealCount &copy; Demo Version</p>
                     </div>
                 </div>
             </div>

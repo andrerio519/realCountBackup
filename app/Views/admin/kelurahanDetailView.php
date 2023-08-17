@@ -102,7 +102,7 @@ $id_kelurahan = $kelurahan["id_kelurahan"];
                                                     ?>
                                                 </td>
                                                 <td>
-                                                    <a href='<?= base_url("tps/detail/$id_orang") ?>' class='btn btn-success btn-sm'><i class='fas fa-eye'></i> Detail </a>
+                                                    <a href='<?= base_url("tps/detail/$id_orang") ?>' class='btn btn-success btn-xs'><i class='fas fa-eye'></i> Detail </a>
                                                     <?php if (session()->get("sesi_daftar") == "aktif") : ?>
                                                         <a data-toggle="modal" data-target="#editModal" class='btn btn-primary btn-xs editModal' data-id="<?= $org['id_orang'] ?>"><i class='fas fa-edit'></i> Edit </a>
                                                         <form action="<?= base_url("tps/detail/$id_orang") ?>" method="POST" class="d-inline">
@@ -121,7 +121,7 @@ $id_kelurahan = $kelurahan["id_kelurahan"];
                         <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                             <div class="row justify-content-center">
                                 <div class="col-md-6">
-                                    <h4>DPRD TK II KAB /KOTA</h4>
+                                    <h4>PESERTA</h4>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
@@ -143,7 +143,7 @@ $id_kelurahan = $kelurahan["id_kelurahan"];
                                                 </tr>
                                             <?php endforeach; ?>
                                             <tr>
-                                                <td colspan="2">Coblos Partai</td>
+                                                <td colspan="2">Coblos Gambar Partai</td>
                                                 <td>
                                                     <?= $partaikota['suara_partaikota'] ?>
                                                 </td>
@@ -160,7 +160,7 @@ $id_kelurahan = $kelurahan["id_kelurahan"];
                                 <div class="col-md-6">
                                     <div class="card">
                                         <div class="card-header">
-                                            <p>DPRD TK II </p>
+                                            <p>Chart </p>
                                         </div>
                                         <canvas id="myChartKota"></canvas>
                                         <h5 class="text-center">Total Suara : <?= $totalSuarakota + $partaikota['suara_partaikota'] ?>

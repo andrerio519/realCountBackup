@@ -217,7 +217,7 @@ $no = 1;
                                 </tr>
                             <?php endforeach; ?>
                         <?php else : ?>
-                            <!-- Jika data pesertari tidak kosong, tampilkan data pesertari yang ada -->
+                            <!-- Jika data pesertari tidak kosong, tampilkan data peserta yang ada -->
                             <?php foreach ($kota as $pk) : ?>
                                 <tr>
                                     <td><?= $pk['no_urutkota'] ?></td>

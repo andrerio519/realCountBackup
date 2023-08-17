@@ -100,7 +100,7 @@ $no = 1;
                                                     ?>
                                                 </td>
                                                 <td>
-                                                    <a href='<?= base_url("kelurahan/detail/$id_kelurahan") ?>' class='btn btn-success btn-sm'><i class='fas fa-eye'></i> Detail </a>
+                                                    <a href='<?= base_url("kelurahan/detail/$id_kelurahan") ?>' class='btn btn-success btn-xs'><i class='fas fa-eye'></i> Detail </a>
                                                     <?php if (session()->get("sesi_daftar") == "aktif") : ?>
                                                         <a data-toggle="modal" data-target="#editmodal" class='btn btn-primary btn-xs editModal' data-id="<?= $id_kelurahan ?>"><i class='fas fa-edit'></i> Edit </a>
                                                         <form action="<?= base_url("kelurahan/detail/$id_kelurahan") ?>" method="POST" class="d-inline">
@@ -119,7 +119,7 @@ $no = 1;
                         <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
                             <div class="row justify-content-center">
                                 <div class="col-md-8">
-                                    <h4>DPRD TK II KAB /KOTA</h4>
+                                    <h4>PESERTA</h4>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
@@ -141,7 +141,7 @@ $no = 1;
                                                 </tr>
                                             <?php endforeach; ?>
                                             <tr>
-                                                <td colspan="2">Coblos Partai</td>
+                                                <td colspan="2">Coblos Gambar Partai</td>
                                                 <td>
                                                     <?= $partaikota['suara_partaikota'] ?>
                                                 </td>
@@ -160,7 +160,7 @@ $no = 1;
                                 <div class="col-md-8">
                                     <div class="card">
                                         <div class="card-header">
-                                            <p>DPRD TK II </p>
+                                            <p>Chart </p>
                                         </div>
                                         <canvas id="myChartKota"></canvas>
                                         <h5 class="text-center">Total Suara : <?= $totalSuarakota + $partaikota['suara_partaikota'] ?>

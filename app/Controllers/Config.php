@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Config\Services;
+
 use App\Models\ConfigModel;
 
 class Config extends BaseController
@@ -64,8 +66,22 @@ class Config extends BaseController
                     unlink($path);
                 }
             }
-            // simpan file baru
-            $logo->move('./assets/dist/img/', $namaFile);
+            // Simpan file baru dengan kompresi
+            $destinationPath = './assets/dist/img/' . $namaFile;
+            // Looping untuk mencoba kompresi dengan kualitas yang berkurang
+            for ($quality = 100; $quality >= 10; $quality -= 10) {
+                Services::image()
+                    ->withFile($logo)
+                    ->save($destinationPath, $quality);
+
+                // Memeriksa ukuran file yang sudah dikompresi
+                $compressedSize = filesize($destinationPath);
+
+                // Jika ukuran file sudah kurang dari 1MB, keluar dari loop
+                if ($compressedSize <= 1024 * 1024) {
+                    break;
+                }
+            }
         }
 
         $no_urut_partai = $this->request->getVar("no_urut");
