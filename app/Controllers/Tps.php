@@ -65,7 +65,7 @@ class Tps extends BaseController
 
     public function insert($id_saksi)
     {
-        // Memulai transaksi
+        // Memulai transaksii
         $db = db_connect();
         $db->transStart();
         try {
